@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body style="background-color: rgb(221, 94, 94);">
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{{ url_for('movies.home') }}">Home</a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"><a href="{{ url_for('movies.scrape_popular100') }}" class="nav-link">Update Database</a></li>
+    </ul>
+  </nav>
+  <!--  including flash message -->
+  {% include 'flash_message.html' %}
+    <h1 class="text-center text-white my-3">Popular 100 Movies list from IMDB</h1>
+    {% for movie in movies.items %}
+
+    <div class="card text-center col-md-8 mx-auto my-2">
+        <div class="card-header">
+            <h3>{{movie.title}}</h3>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">Rank {{movie.rank}}</h4>
+          <p class="card-text">Rating {{movie.rating}}, Votes {{movie.votes}}</p>
+        </div>
+      </div>
+
+    
+    {% endfor %}
+
+<!-- Pagination Links-->
+<div class="text-center">
+  <a href="{{ url_for('movies.top250', page=movies.prev_num) }}"
+     class="btn btn-outline-dark 
+     {% if movies.page == 1 %}disabled{% endif %}">
+      &laquo;
+  </a>
+<!-- Loop through the number of pages to display a link for each-->
+  {% for page_num in movies.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+<!-- Check for the active page and set the link to "Active"-->
+          {% if movies.page == page_num %}
+          <a href="{{ url_for('movies.top250', page=page_num) }}"
+             class="btn btn-dark">
+              {{ page_num }}
+          </a>
+          {% else %}
+          <a href="{{ url_for('movies.top250', page=page_num) }}"
+             class="btn btn-outline-dark">
+              {{ page_num }}
+          </a>
+          {% endif %}
+      {% else %}
+          ...
+      {% endif %}
+  {% endfor %}
+  <a href="{{ url_for('movies.top250', page=movies.next_num) }}"
+     class="btn btn-outline-dark
+     {% if movies.page == movies.pages %}disabled{% endif %}">
+      &raquo;
+  </a>
+</div>
+<p class="text-center mt-3">
+ Showing page {{ movies.page }} of {{ movies.pages }}
+</p>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
