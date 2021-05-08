@@ -2,11 +2,11 @@ Senior Project & Portfolio Final Project
 
 Movie Database
 	This project connects to an IMDB API enabling the user to search for movies and get information on them from the IMDB server,
-	as well as see the the top 250 of all time and the current most popular.
+	as well as see the the top 250 movies of all time and the current most popular.
 	
 Requirements
 	In order to run the program, you have Python installed with the following 
-	( install through Python using pip followed by the name( ie: pip install alembic)):
+	( Install through Python using pip followed by the name( ie: pip install alembic)):
 		alembic==1.5.8
 		click==7.1.2
 		Flask==1.1.2
